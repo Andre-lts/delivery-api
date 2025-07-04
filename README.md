@@ -38,5 +38,5 @@ Uma API RESTful desenvolvida em **Java com Spring Boot**, focada em operações 
 
 A aplicação utiliza **H2**, um banco de dados em memória (ou persistente), útil para testes e desenvolvimento local.
 
-##👨‍💻 Desenvolvedor
+## 👨‍💻 Desenvolvedor
 André Luis Teixeira da Silva - Arquitetura de Sistemas - Turma 1 Desenvolvido com JDK 21 e Spring Boot 3.2.x
