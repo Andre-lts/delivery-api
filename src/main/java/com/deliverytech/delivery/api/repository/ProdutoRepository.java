@@ -1,7 +1,7 @@
 package com.deliverytech.delivery.api.repository;
 
-import com.deliverytech.delivery.entity.Produto; 
-import com.deliverytech.delivery.entity.Restaurante; 
+import com.deliverytech.delivery.api.entity.Produto; 
+import com.deliverytech.delivery.api.entity.Restaurante; 
 import org.springframework.data.jpa.repository.JpaRepository; 
 import org.springframework.data.jpa.repository.Query; 
 import org.springframework.data.repository.query.Param; 
@@ -42,7 +42,6 @@ precoMax);
                                                @Param("categoria") String categoria); 
  
     // Contar produtos por restaurante 
-    @Query("SELECT COUNT(p) FROM Produto p WHERE p.restaurante.id = :restauranteId AND 
-p.disponivel = true") 
+    @Query("SELECT COUNT(p) FROM Produto p WHERE p.restaurante.id = :restauranteId AND p.disponivel = true") 
     Long countByRestauranteId(@Param("restauranteId") Long restauranteId); 
 }

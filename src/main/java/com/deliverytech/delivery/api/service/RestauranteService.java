@@ -1,17 +1,17 @@
 package com.deliverytech.delivery.api.service;
 
-import com.deliverytech.delivery.en ty.Restaurante; 
-import com.deliverytech.delivery.repository.RestauranteRepository; 
-import org.springframework.beans.factory.annota on.Autowired; 
+import com.deliverytech.delivery.api.entity.Restaurante; 
+import com.deliverytech.delivery.api.repository.RestauranteRepository; 
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Service; 
-import org.springframework.transac on.annota on.Transac onal; 
+import org.springframework.transaction.annotation.Transactional; 
  
 import java.math.BigDecimal; 
-import java.u l.List; 
-import java.u l.Op onal; 
+import java.util.List; 
+import java.util.Optional; 
  
 @Service 
-@Transac onal 
+@Transactional 
 public class RestauranteService { 
  
     @Autowired 
@@ -23,12 +23,12 @@ public class RestauranteService {
     public Restaurante cadastrar(Restaurante restaurante) { 
         // Validar nome único 
         if (restauranteRepository.findByNome(restaurante.getNome()).isPresent()) { 
-            throw new IllegalArgumentExcep on("Restaurante já cadastrado: " + 
+            throw new IllegalArgumentException("Restaurante já cadastrado: " + 
 restaurante.getNome()); 
         } 
  
         validarDadosRestaurante(restaurante); 
-        restaurante.setA vo(true); 
+        restaurante.setAtivo(true); 
  
         return restauranteRepository.save(restaurante); 
     } 
@@ -36,25 +36,25 @@ restaurante.getNome());
     /** 
      * Buscar por ID 
      */ 
-    @Transac onal(readOnly = true) 
-    public Op onal<Restaurante> buscarPorId(Long id) { 
+    @Transactional(readOnly = true) 
+    public Optional<Restaurante> buscarPorId(Long id) { 
         return restauranteRepository.findById(id); 
     } 
  
     /** 
      * Listar restaurantes a vos 
      */ 
-    @Transac onal(readOnly = true) 
-    public List<Restaurante> listarA vos() { 
-        return restauranteRepository.findByA voTrue(); 
+    @Transactional(readOnly = true) 
+    public List<Restaurante> listarAtivos() { 
+        return restauranteRepository.findByAtivoTrue(); 
     } 
  
     /** 
      * Buscar por categoria 
      */ 
-    @Transac onal(readOnly = true) 
+    @Transactional(readOnly = true) 
     public List<Restaurante> buscarPorCategoria(String categoria) { 
-        return restauranteRepository.findByCategoriaAndA voTrue(categoria); 
+        return restauranteRepository.findByCategoriaAndAtivoTrue(categoria); 
     } 
  
     /** 
@@ -62,12 +62,12 @@ restaurante.getNome());
      */ 
     public Restaurante atualizar(Long id, Restaurante restauranteAtualizado) { 
         Restaurante restaurante = buscarPorId(id) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Restaurante não encontrado: " + id)); 
+            .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado: " + id)); 
  
         // Verificar nome único (se mudou) 
         if (!restaurante.getNome().equals(restauranteAtualizado.getNome()) && 
             restauranteRepository.findByNome(restauranteAtualizado.getNome()).isPresent()) { 
-            throw new IllegalArgumentExcep on("Nome já cadastrado: " + 
+            throw new IllegalArgumentException("Nome já cadastrado: " + 
 restauranteAtualizado.getNome()); 
         } 
  
@@ -83,22 +83,22 @@ restauranteAtualizado.getNome());
     /** 
      * Ina var restaurante 
      */ 
-    public void ina var(Long id) { 
+    public void inativar(Long id) { 
         Restaurante restaurante = buscarPorId(id) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Restaurante não encontrado: " + id)); 
+            .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado: " + id)); 
  
-        restaurante.setA vo(false); 
+        restaurante.setAtivo(false); 
         restauranteRepository.save(restaurante); 
     } 
  
     private void validarDadosRestaurante(Restaurante restaurante) { 
         if (restaurante.getNome() == null || restaurante.getNome().trim().isEmpty()) { 
-            throw new IllegalArgumentExcep on("Nome é obrigatório"); 
+            throw new IllegalArgumentException("Nome é obrigatório"); 
         } 
  
         if (restaurante.getTaxaEntrega() != null && 
             restaurante.getTaxaEntrega().compareTo(BigDecimal.ZERO) < 0) { 
-            throw new IllegalArgumentExcep on("Taxa de entrega não pode ser nega va"); 
+            throw new IllegalArgumentException("Taxa de entrega não pode ser nega va"); 
         } 
     } 
 }

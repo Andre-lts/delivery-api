@@ -10,14 +10,14 @@ import java.util.List;
 @Data 
 public class Restaurante { 
     @Id 
-    @GeneratedValue(strategy = Genera onType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id; 
     private String nome; 
     private String categoria; 
     private String endereco; 
     private String telefone; 
     private BigDecimal taxaEntrega; 
-    private boolean a vo; 
+    private boolean ativo; 
  
     @OneToMany(mappedBy = "restaurante") 
     private List<Produto> produtos; 

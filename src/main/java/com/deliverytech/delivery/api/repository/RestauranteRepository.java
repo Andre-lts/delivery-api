@@ -1,6 +1,6 @@
 package com.deliverytech.delivery.api.repository;
 
-import com.deliverytech.delivery.entity.Restaurante; 
+import com.deliverytech.delivery.api.entity.Restaurante; 
 import org.springframework.data.jpa.repository.JpaRepository; 
 import org.springframework.data.jpa.repository.Query; 
 import org.springframework.data.repository.query.Param; 
@@ -36,13 +36,11 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
     List<Restaurante> findRestaurantesComProdutos(); 
  
     // Buscar por faixa de taxa de entrega 
-    @Query("SELECT r FROM Restaurante r WHERE r.taxaEntrega BETWEEN :min AND :max AND 
-r.ativo = true") 
+    @Query("SELECT r FROM Restaurante r WHERE r.taxaEntrega BETWEEN :min AND :max AND r.ativo = true") 
     List<Restaurante> findByTaxaEntregaBetween(@Param("min") BigDecimal min, 
 @Param("max") BigDecimal max); 
  
     // Categorias disponíveis 
-    @Query("SELECT DISTINCT r.categoria FROM Restaurante r WHERE r.ativo = true ORDER BY 
-r.categoria") 
+    @Query("SELECT DISTINCT r.categoria FROM Restaurante r WHERE r.ativo = true ORDER BY r.categoria") 
     List<String> findCategoriasDisponiveis(); 
 } 

@@ -1,7 +1,7 @@
 package com.deliverytech.delivery.api.controller;
 
-import com.deliverytech.delivery.entity.Produto;
-import com.deliverytech.delivery.service.ProdutoService;
+import com.deliverytech.delivery.api.entity.Produto;
+import com.deliverytech.delivery.api.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

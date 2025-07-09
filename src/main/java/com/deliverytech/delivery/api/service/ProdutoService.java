@@ -1,19 +1,19 @@
 package com.deliverytech.delivery.api.service;
 
-import com.deliverytech.delivery.en ty.Produto; 
-import com.deliverytech.delivery.en ty.Restaurante; 
-import com.deliverytech.delivery.repository.ProdutoRepository; 
-import com.deliverytech.delivery.repository.RestauranteRepository; 
-import org.springframework.beans.factory.annota on.Autowired; 
+import com.deliverytech.delivery.api.entity.Produto; 
+import com.deliverytech.delivery.api.entity.Restaurante; 
+import com.deliverytech.delivery.api.repository.ProdutoRepository; 
+import com.deliverytech.delivery.api.repository.RestauranteRepository; 
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Service; 
-import org.springframework.transac on.annota on.Transac onal; 
+import org.springframework.transaction.annotation.Transactional; 
  
 import java.math.BigDecimal; 
-import java.u l.List; 
-import java.u l.Op onal; 
+import java.util.List; 
+import java.util.Optional; 
  
 @Service 
-@Transac onal 
+@Transactional 
 public class ProdutoService { 
  
     @Autowired 
@@ -27,7 +27,7 @@ public class ProdutoService {
      */ 
     public Produto cadastrar(Produto produto, Long restauranteId) { 
         Restaurante restaurante = restauranteRepository.findById(restauranteId) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Restaurante não encontrado: " + 
+            .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado: " + 
 restauranteId)); 
  
         validarDadosProduto(produto); 
@@ -41,15 +41,15 @@ restauranteId));
     /** 
      * Buscar por ID 
      */ 
-    @Transac onal(readOnly = true) 
-    public Op onal<Produto> buscarPorId(Long id) { 
+    @Transactional(readOnly = true) 
+    public Optional<Produto> buscarPorId(Long id) { 
         return produtoRepository.findById(id); 
     } 
  
     /** 
      * Listar produtos por restaurante 
      */ 
-    @Transac onal(readOnly = true) 
+    @Transactional(readOnly = true) 
     public List<Produto> listarPorRestaurante(Long restauranteId) { 
         return produtoRepository.findByRestauranteIdAndDisponivelTrue(restauranteId); 
     } 
@@ -57,7 +57,7 @@ restauranteId));
     /** 
      * Buscar por categoria 
      */ 
-    @Transac onal(readOnly = true) 
+    @Transactional(readOnly = true) 
     public List<Produto> buscarPorCategoria(String categoria) { 
         return produtoRepository.findByCategoriaAndDisponivelTrue(categoria); 
     } 
@@ -67,7 +67,7 @@ restauranteId));
      */ 
     public Produto atualizar(Long id, Produto produtoAtualizado) { 
         Produto produto = buscarPorId(id) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Produto não encontrado: " + id)); 
+            .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado: " + id)); 
  
         validarDadosProduto(produtoAtualizado); 
  
@@ -84,7 +84,7 @@ restauranteId));
      */ 
     public void alterarDisponibilidade(Long id, boolean disponivel) { 
         Produto produto = buscarPorId(id) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Produto não encontrado: " + id)); 
+            .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado: " + id)); 
  
         produto.setDisponivel(disponivel); 
         produtoRepository.save(produto); 
@@ -93,18 +93,18 @@ restauranteId));
     /** 
      * Buscar por faixa de preço 
      */ 
-    @Transac onal(readOnly = true) 
+    @Transactional(readOnly = true) 
     public List<Produto> buscarPorFaixaPreco(BigDecimal precoMin, BigDecimal precoMax) { 
         return produtoRepository.findByPrecoBetweenAndDisponivelTrue(precoMin, precoMax); 
     } 
  
     private void validarDadosProduto(Produto produto) { 
         if (produto.getNome() == null || produto.getNome().trim().isEmpty()) { 
-            throw new IllegalArgumentExcep on("Nome é obrigatório"); 
+            throw new IllegalArgumentException("Nome é obrigatório"); 
         } 
  
         if (produto.getPreco() == null || produto.getPreco().compareTo(BigDecimal.ZERO) <= 0) { 
-            throw new IllegalArgumentExcep on("Preço deve ser maior que zero"); 
+            throw new IllegalArgumentException("Preço deve ser maior que zero"); 
         } 
     } 
 } 

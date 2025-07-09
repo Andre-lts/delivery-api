@@ -1,16 +1,16 @@
 package com.deliverytech.delivery.api.service;
 
-import com.deliverytech.delivery.en ty.Cliente; 
-import com.deliverytech.delivery.repository.ClienteRepository; 
-import org.springframework.beans.factory.annota on.Autowired; 
+import com.deliverytech.delivery.api.entity.Cliente; 
+import com.deliverytech.delivery.api.repository.ClienteRepository; 
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Service; 
-import org.springframework.transac on.annota on.Transac onal; 
+import org.springframework.transaction.annotation.Transactional; 
  
-import java.u l.List; 
-import java.u l.Op onal; 
+import java.util.List; 
+import java.util.Optional; 
  
 @Service 
-@Transac onal 
+@Transactional 
 public class ClienteService { 
  
     @Autowired 
@@ -22,14 +22,14 @@ public class ClienteService {
     public Cliente cadastrar(Cliente cliente) { 
         // Validar email único 
         if (clienteRepository.existsByEmail(cliente.getEmail())) { 
-            throw new IllegalArgumentExcep on("Email já cadastrado: " + cliente.getEmail()); 
+            throw new IllegalArgumentException("Email já cadastrado: " + cliente.getEmail()); 
         } 
  
         // Validações de negócio 
         validarDadosCliente(cliente); 
  
         // Definir como a vo por padrão 
-        cliente.setA vo(true); 
+        cliente.setAtivo(true); 
  
         return clienteRepository.save(cliente); 
     } 
@@ -37,25 +37,25 @@ public class ClienteService {
     /** 
      * Buscar cliente por ID 
      */ 
-    @Transac onal(readOnly = true) 
-    public Op onal<Cliente> buscarPorId(Long id) { 
+    @Transactional(readOnly = true) 
+    public Optional<Cliente> buscarPorId(Long id) { 
         return clienteRepository.findById(id); 
     } 
  
     /** 
      * Buscar cliente por email 
      */ 
-    @Transac onal(readOnly = true) 
-    public Op onal<Cliente> buscarPorEmail(String email) { 
+    @Transactional(readOnly = true) 
+    public Optional<Cliente> buscarPorEmail(String email) { 
         return clienteRepository.findByEmail(email); 
     } 
  
     /** 
      * Listar todos os clientes a vos 
      */ 
-    @Transac onal(readOnly = true) 
-    public List<Cliente> listarA vos() { 
-        return clienteRepository.findByA voTrue(); 
+    @Transactional(readOnly = true) 
+    public List<Cliente> listarAtivos() { 
+        return clienteRepository.findByAtivoTrue(); 
     } 
  
     /** 
@@ -63,12 +63,12 @@ public class ClienteService {
      */ 
     public Cliente atualizar(Long id, Cliente clienteAtualizado) { 
         Cliente cliente = buscarPorId(id) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Cliente não encontrado: " + id)); 
+            .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + id)); 
  
         // Verificar se email não está sendo usado por outro cliente 
         if (!cliente.getEmail().equals(clienteAtualizado.getEmail()) && 
             clienteRepository.existsByEmail(clienteAtualizado.getEmail())) { 
-            throw new IllegalArgumentExcep on("Email já cadastrado: " + 
+            throw new IllegalArgumentException("Email já cadastrado: " + 
 clienteAtualizado.getEmail()); 
         } 
  
@@ -84,18 +84,18 @@ clienteAtualizado.getEmail());
     /** 
      * Ina var cliente (so delete) 
      */ 
-    public void ina var(Long id) { 
+    public void inativar(Long id) { 
         Cliente cliente = buscarPorId(id) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Cliente não encontrado: " + id)); 
+            .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + id)); 
  
-        cliente.ina var(); 
+        cliente.inativar(); 
         clienteRepository.save(cliente); 
     } 
  
     /** 
      * Buscar clientes por nome 
      */ 
-    @Transac onal(readOnly = true) 
+    @Transactional(readOnly = true) 
     public List<Cliente> buscarPorNome(String nome) { 
         return clienteRepository.findByNomeContainingIgnoreCase(nome); 
     } 
@@ -105,15 +105,15 @@ clienteAtualizado.getEmail());
      */ 
     private void validarDadosCliente(Cliente cliente) { 
         if (cliente.getNome() == null || cliente.getNome().trim().isEmpty()) { 
-            throw new IllegalArgumentExcep on("Nome é obrigatório"); 
+            throw new IllegalArgumentException("Nome é obrigatório"); 
         } 
  
         if (cliente.getEmail() == null || cliente.getEmail().trim().isEmpty()) { 
-            throw new IllegalArgumentExcep on("Email é obrigatório"); 
+            throw new IllegalArgumentException("Email é obrigatório"); 
         } 
  
         if (cliente.getNome().length() < 2) { 
-            throw new IllegalArgumentExcep on("Nome deve ter pelo menos 2 caracteres"); 
+            throw new IllegalArgumentException("Nome deve ter pelo menos 2 caracteres"); 
         } 
     } 
 } 

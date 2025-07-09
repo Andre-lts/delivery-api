@@ -1,7 +1,7 @@
 package com.deliverytech.delivery.api.controller;
 
-import com.deliverytech.delivery.entity.Restaurante;
-import com.deliverytech.delivery.service.RestauranteService;
+import com.deliverytech.delivery.api.entity.Restaurante;
+import com.deliverytech.delivery.api.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,8 +50,7 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id,
-                                       @Valid @RequestBody Restaurante restauranteAtualizado) {
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @Valid @RequestBody Restaurante restauranteAtualizado) {
         try {
             Restaurante restaurante = restauranteService.atualizar(id, restauranteAtualizado);
             return ResponseEntity.ok(restaurante);

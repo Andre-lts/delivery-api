@@ -1,6 +1,6 @@
 package com.deliverytech.delivery.api.repository;
 
-import com.deliverytech.delivery.entity.Cliente; 
+import com.deliverytech.delivery.api.entity.Cliente; 
 import org.springframework.data.jpa.repository.JpaRepository; 
 import org.springframework.data.jpa.repository.Query; 
 import org.springframework.data.repository.query.Param; 
@@ -32,8 +32,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     List<Cliente> findClientesComPedidos(); 
  
     // Query na va - clientes por cidade 
-    @Query(value = "SELECT * FROM clientes WHERE endereco LIKE %:cidade% AND ativo = 
-true", nativeQuery = true) 
+    @Query(value = "SELECT * FROM clientes WHERE endereco LIKE %:cidade% AND ativo = true", nativeQuery = true) 
     List<Cliente> findByCidade(@Param("cidade") String cidade); 
  
     // Contar clientes a vos 

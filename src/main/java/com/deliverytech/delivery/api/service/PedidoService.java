@@ -1,17 +1,17 @@
 package com.deliverytech.delivery.api.service;
 
-import com.deliverytech.delivery.en ty.*; 
-import com.deliverytech.delivery.repository.*; 
-import org.springframework.beans.factory.annota on.Autowired; 
+import com.deliverytech.delivery.api.entity.*; 
+import com.deliverytech.delivery.api.repository.*; 
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Service; 
-import org.springframework.transac on.annota on.Transac onal; 
+import org.springframework.transaction.annotation.Transactional; 
  
 import java.math.BigDecimal; 
-import java.u l.List; 
-import java.u l.Op onal; 
+import java.util.List; 
+import java.util.Optional; 
  
 @Service 
-@Transac onal 
+@Transactional 
 public class PedidoService { 
  
     @Autowired 
@@ -31,19 +31,19 @@ public class PedidoService {
      */ 
     public Pedido criarPedido(Long clienteId, Long restauranteId) { 
         Cliente cliente = clienteRepository.findById(clienteId) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Cliente não encontrado: " + 
+            .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + 
 clienteId)); 
  
         Restaurante restaurante = restauranteRepository.findById(restauranteId) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Restaurante não encontrado: " + 
+            .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado: " + 
 restauranteId)); 
  
-        if (!cliente.isA vo()) { 
-            throw new IllegalArgumentExcep on("Cliente ina vo não pode fazer pedidos"); 
+        if (!cliente.isAtivo()) { 
+            throw new IllegalArgumentException("Cliente ina vo não pode fazer pedidos"); 
         } 
  
-        if (!restaurante.getA vo()) { 
-            throw new IllegalArgumentExcep on("Restaurante não está disponível"); 
+        if (!restaurante.getAtivo()) { 
+            throw new IllegalArgumentException("Restaurante não está disponível"); 
         } 
  
         Pedido pedido = new Pedido(); 
@@ -57,33 +57,32 @@ restauranteId));
     /** 
      * Adicionar item ao pedido 
      */ 
-    public Pedido adicionarItem(Long pedidoId, Long produtoId, Integer quan dade) { 
+    public Pedido adicionarItem(Long pedidoId, Long produtoId, Integer quantidade) { 
         Pedido pedido = buscarPorId(pedidoId) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Pedido não encontrado: " + 
+            .orElseThrow(() -> new IllegalArgumentException("Pedido não encontrado: " + 
 pedidoId)); 
  
         Produto produto = produtoRepository.findById(produtoId) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Produto não encontrado: " + 
+            .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado: " + 
 produtoId)); 
  
         if (!produto.getDisponivel()) { 
-            throw new IllegalArgumentExcep on("Produto não disponível: " + produto.getNome()); 
+            throw new IllegalArgumentException("Produto não disponível: " + produto.getNome()); 
         } 
  
-        if (quan dade <= 0) { 
-            throw new IllegalArgumentExcep on("Quan dade deve ser maior que zero"); 
+        if (quantidade <= 0) { 
+            throw new IllegalArgumentException("Quan dade deve ser maior que zero"); 
         } 
  
         // Verificar se produto pertence ao mesmo restaurante do pedido 
         if (!produto.getRestaurante().getId().equals(pedido.getRestaurante().getId())) { 
-            throw new IllegalArgumentExcep on("Produto não pertence ao restaurante do 
-pedido"); 
+            throw new IllegalArgumentException("Produto não pertence ao restaurante do pedido"); 
         } 
  
         ItemPedido item = new ItemPedido(); 
         item.setPedido(pedido); 
         item.setProduto(produto); 
-        item.setQuan dade(quan dade); 
+        item.setQuantidade(quantidade); 
         item.setPrecoUnitario(produto.getPreco()); 
         item.calcularSubtotal(); 
  
@@ -97,16 +96,15 @@ pedido");
      */ 
     public Pedido confirmarPedido(Long pedidoId) { 
         Pedido pedido = buscarPorId(pedidoId) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Pedido não encontrado: " + 
+            .orElseThrow(() -> new IllegalArgumentException("Pedido não encontrado: " + 
 pedidoId)); 
  
         if (pedido.getStatus() != StatusPedido.PENDENTE) { 
-            throw new IllegalArgumentExcep on("Apenas pedidos pendentes podem ser 
-confirmados"); 
+            throw new IllegalArgumentException("Apenas pedidos pendentes podem ser confirmados"); 
         } 
  
         if (pedido.getItens().isEmpty()) { 
-            throw new IllegalArgumentExcep on("Pedido deve ter pelo menos um item"); 
+            throw new IllegalArgumentException("Pedido deve ter pelo menos um item"); 
         } 
  
         pedido.confirmar(); 
@@ -116,15 +114,15 @@ confirmados");
     /** 
      * Buscar por ID 
      */ 
-    @Transac onal(readOnly = true) 
-    public Op onal<Pedido> buscarPorId(Long id) { 
+    @Transactional(readOnly = true) 
+    public Optional<Pedido> buscarPorId(Long id) { 
         return pedidoRepository.findById(id); 
     } 
  
     /** 
      * Listar pedidos por cliente 
      */ 
-    @Transac onal(readOnly = true) 
+    @Transactional(readOnly = true) 
     public List<Pedido> listarPorCliente(Long clienteId) { 
         return pedidoRepository.findByClienteIdOrderByDataPedidoDesc(clienteId); 
     } 
@@ -132,30 +130,30 @@ confirmados");
     /** 
      * Buscar por número do pedido 
      */ 
-    @Transac onal(readOnly = true) 
-    public Op onal<Pedido> buscarPorNumero(String numeroPedido) { 
-        return Op onal.ofNullable(pedidoRepository.findByNumeroPedido(numeroPedido)); 
+    @Transactional(readOnly = true) 
+    public Optional<Pedido> buscarPorNumero(String numeroPedido) { 
+        return Optional.ofNullable(pedidoRepository.findByNumeroPedido(numeroPedido)); 
     } 
  
     /** 
      * Cancelar pedido 
      */ 
-    public Pedido cancelarPedido(Long pedidoId, String mo vo) { 
+    public Pedido cancelarPedido(Long pedidoId, String motivo) { 
         Pedido pedido = buscarPorId(pedidoId) 
-            .orElseThrow(() -> new IllegalArgumentExcep on("Pedido não encontrado: " + 
+            .orElseThrow(() -> new IllegalArgumentException("Pedido não encontrado: " + 
 pedidoId)); 
  
         if (pedido.getStatus() == StatusPedido.ENTREGUE) { 
-            throw new IllegalArgumentExcep on("Pedido já entregue não pode ser cancelado"); 
+            throw new IllegalArgumentException("Pedido já entregue não pode ser cancelado"); 
         } 
  
         if (pedido.getStatus() == StatusPedido.CANCELADO) { 
-            throw new IllegalArgumentExcep on("Pedido já está cancelado"); 
+            throw new IllegalArgumentException("Pedido já está cancelado"); 
         } 
  
         pedido.setStatus(StatusPedido.CANCELADO); 
-        if (mo vo != null && !mo vo.trim().isEmpty()) { 
-            pedido.setObservacoes(pedido.getObservacoes() + " | Cancelado: " + mo vo); 
+        if (motivo != null && !motivo.trim().isEmpty()) { 
+            pedido.setObservacoes(pedido.getObservacoes() + " | Cancelado: " + motivo); 
         } 
  
         return pedidoRepository.save(pedido); 

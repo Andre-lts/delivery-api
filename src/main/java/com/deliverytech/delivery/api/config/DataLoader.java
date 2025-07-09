@@ -1,8 +1,8 @@
 package com.deliverytech.delivery.api.config;
 
-import com.deliverytech.entity.*;
-import com.deliverytech.enums.StatusPedido;
-import com.deliverytech.repository.*;
+import com.deliverytech.delivery.api.entity.*;
+import com.deliverytech.delivery.api.entity.StatusPedido;
+import com.deliverytech.delivery.api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

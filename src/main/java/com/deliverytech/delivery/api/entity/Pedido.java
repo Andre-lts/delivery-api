@@ -1,6 +1,6 @@
 package com.deliverytech.delivery.api.entity;
 
-import com.deliverytech.enums.StatusPedido; 
+import com.deliverytech.delivery.api.entity.StatusPedido; 
 import jakarta.persistence.*; 
 import lombok.Data; 
  
@@ -12,7 +12,7 @@ import java.util.List;
 @Data 
 public class Pedido { 
     @Id 
-    @GeneratedValue(strategy = Genera onType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id; 
     private LocalDateTime dataPedido; 
     private String enderecoEntrega; 

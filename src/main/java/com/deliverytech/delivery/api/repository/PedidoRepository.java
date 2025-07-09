@@ -1,8 +1,8 @@
 package com.deliverytech.delivery.api.repository;
 
-import com.deliverytech.delivery.entity.Pedido; 
-import com.deliverytech.delivery.entity.Cliente; 
-import com.deliverytech.delivery.entity.StatusPedido; 
+import com.deliverytech.delivery.api.entity.Pedido; 
+import com.deliverytech.delivery.api.entity.Cliente; 
+import com.deliverytech.delivery.api.entity.StatusPedido; 
 import org.springframework.data.jpa.repository.JpaRepository; 
 import org.springframework.data.jpa.repository.Query; 
 import org.springframework.data.repository.query.Param; 
@@ -32,13 +32,11 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 LocalDateTime fim); 
  
     // Buscar pedidos do dia 
-    @Query("SELECT p FROM Pedido p WHERE DATE(p.dataPedido) = CURRENT_DATE ORDER BY 
-p.dataPedido DESC") 
+    @Query("SELECT p FROM Pedido p WHERE DATE(p.dataPedido) = CURRENT_DATE ORDER BY p.dataPedido DESC") 
     List<Pedido> findPedidosDodia(); 
  
     // Buscar pedidos por restaurante 
-    @Query("SELECT p FROM Pedido p WHERE p.restaurante.id = :restauranteId ORDER BY 
-p.dataPedido DESC") 
+    @Query("SELECT p FROM Pedido p WHERE p.restaurante.id = :restauranteId ORDER BY p.dataPedido DESC") 
     List<Pedido> findByRestauranteId(@Param("restauranteId") Long restauranteId); 
  
     // Relatório - pedidos por status 
@@ -46,14 +44,12 @@ p.dataPedido DESC")
     List<Object[]> countPedidosByStatus(); 
  
     // Pedidos pendentes (para dashboard) 
-    @Query("SELECT p FROM Pedido p WHERE p.status IN ('PENDENTE', 'CONFIRMADO', 
-'PREPARANDO') " + 
+    @Query("SELECT p FROM Pedido p WHERE p.status IN ('PENDENTE', 'CONFIRMADO', 'PREPARANDO') " + 
            "ORDER BY p.dataPedido ASC") 
     List<Pedido> findPedidosPendentes(); 
  
     // Valor total de vendas por período 
-    @Query("SELECT SUM(p.valorTotal) FROM Pedido p WHERE p.dataPedido BETWEEN :inicio 
-AND :fim " + 
+    @Query("SELECT SUM(p.valorTotal) FROM Pedido p WHERE p.dataPedido BETWEEN :inicio AND :fim " + 
            "AND p.status NOT IN ('CANCELADO')") 
     BigDecimal calcularVendasPorPeriodo(@Param("inicio") LocalDateTime inicio, 
                                        @Param("fim") LocalDateTime fim); 
