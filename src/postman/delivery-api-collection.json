@@ -1,0 +1,399 @@
+{
+    "info": {
+      "name": "Delivery API Collection",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "_postman_id": "delivery-api-20250707114217"
+    },
+    "item": [
+      {
+        "name": "POST Cliente - Jo\u00e3o Silva",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Jo\\u00e3o Silva\",\n  \"email\": \"joao@email.com\",\n  \"telefone\": \"(11) 99999-1111\",\n  \"endereco\": \"Rua A, 123 - S\\u00e3o Paulo/SP\"\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/clientes",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "clientes"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Cliente - Maria Santos",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Maria Santos\",\n  \"email\": \"maria@email.com\",\n  \"telefone\": \"(11) 99999-2222\",\n  \"endereco\": \"Rua B, 456 - S\\u00e3o Paulo/SP\"\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/clientes",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "clientes"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Cliente - Pedro Oliveira",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Pedro Oliveira\",\n  \"email\": \"pedro@email.com\",\n  \"telefone\": \"(11) 99999-3333\",\n  \"endereco\": \"Rua C, 789 - S\\u00e3o Paulo/SP\"\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/clientes",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "clientes"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Restaurante - Pizzaria Bella",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Pizzaria Bella\",\n  \"categoria\": \"Italiana\",\n  \"endereco\": \"Av. Paulista, 1000 - S\\u00e3o Paulo/SP\",\n  \"telefone\": \"(11) 3333-1111\",\n  \"taxaEntrega\": 5.0\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/restaurantes",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "restaurantes"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Restaurante - Burger House",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Burger House\",\n  \"categoria\": \"Hamburgueria\",\n  \"endereco\": \"Rua Augusta, 500 - S\\u00e3o Paulo/SP\",\n  \"telefone\": \"(11) 3333-2222\",\n  \"taxaEntrega\": 3.5\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/restaurantes",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "restaurantes"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Restaurante - Sushi Master",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Sushi Master\",\n  \"categoria\": \"Japonesa\",\n  \"endereco\": \"Rua Liberdade, 200 - S\\u00e3o Paulo/SP\",\n  \"telefone\": \"(11) 3333-3333\",\n  \"taxaEntrega\": 8.0\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/restaurantes",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "restaurantes"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Produto - Pizza Margherita",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Pizza Margherita\",\n  \"descricao\": \"Molho de tomate, mussarela e manjeric\\u00e3o\",\n  \"preco\": 35.9,\n  \"categoria\": \"Pizza\",\n  \"restauranteId\": 1\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/produtos?restauranteId=1",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "produtos?restauranteId=1"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Produto - Pizza Calabresa",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Pizza Calabresa\",\n  \"descricao\": \"Molho de tomate, mussarela e calabresa\",\n  \"preco\": 38.9,\n  \"categoria\": \"Pizza\",\n  \"restauranteId\": 1\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/produtos?restauranteId=1",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "produtos?restauranteId=1"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Produto - Lasanha Bolonhesa",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Lasanha Bolonhesa\",\n  \"descricao\": \"Lasanha tradicional com molho bolonhesa\",\n  \"preco\": 28.9,\n  \"categoria\": \"Massa\",\n  \"restauranteId\": 1\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/produtos?restauranteId=1",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "produtos?restauranteId=1"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Produto - X-Burger",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"X-Burger\",\n  \"descricao\": \"Hamb\\u00farguer, queijo, alface e tomate\",\n  \"preco\": 18.9,\n  \"categoria\": \"Hamb\\u00farguer\",\n  \"restauranteId\": 2\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/produtos?restauranteId=2",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "produtos?restauranteId=2"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Produto - X-Bacon",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"X-Bacon\",\n  \"descricao\": \"Hamb\\u00farguer, queijo, bacon, alface e tomate\",\n  \"preco\": 22.9,\n  \"categoria\": \"Hamb\\u00farguer\",\n  \"restauranteId\": 2\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/produtos?restauranteId=2",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "produtos?restauranteId=2"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Produto - Batata Frita",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Batata Frita\",\n  \"descricao\": \"Por\\u00e7\\u00e3o de batata frita crocante\",\n  \"preco\": 12.9,\n  \"categoria\": \"Acompanhamento\",\n  \"restauranteId\": 2\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/produtos?restauranteId=2",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "produtos?restauranteId=2"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Produto - Combo Sashimi",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Combo Sashimi\",\n  \"descricao\": \"15 pe\\u00e7as de sashimi variado\",\n  \"preco\": 45.9,\n  \"categoria\": \"Sashimi\",\n  \"restauranteId\": 3\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/produtos?restauranteId=3",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "produtos?restauranteId=3"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Produto - Hot Roll Salm\u00e3o",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Hot Roll Salm\\u00e3o\",\n  \"descricao\": \"8 pe\\u00e7as de hot roll de salm\\u00e3o\",\n  \"preco\": 32.9,\n  \"categoria\": \"Hot Roll\",\n  \"restauranteId\": 3\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/produtos?restauranteId=3",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "produtos?restauranteId=3"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "POST Produto - Temaki Atum",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"nome\": \"Temaki Atum\",\n  \"descricao\": \"Temaki de atum com cream cheese\",\n  \"preco\": 15.9,\n  \"categoria\": \"Temaki\",\n  \"restauranteId\": 3\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/produtos?restauranteId=3",
+            "host": [
+              "{{base_url}}"
+            ],
+            "path": [
+              "produtos?restauranteId=3"
+            ]
+          }
+        },
+        "response": []
+      }
+    ]
+  }
