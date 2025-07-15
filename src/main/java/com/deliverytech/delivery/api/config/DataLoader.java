@@ -98,6 +98,68 @@ private void inserirRestaurantes() {
     restauranteRepository.saveAll(Arrays.asList(restaurante1, restaurante2));
     System.out.println("✓ 2 restaurantes inseridos");
 }
+
+// Método inserirProdutos
+private void inserirProdutos() {
+    System.out.println("--- Inserindo Produtos ---");
+
+    Restaurante restaurante = restauranteRepository.findAll().get(0); // ou buscar por nome/ID específico
+
+    Produto produto1 = new Produto();
+    produto1.setNome("Pizza Margherita");
+    produto1.setDescricao("Pizza com molho de tomate e queijo");
+    produto1.setPreco(new BigDecimal("25.00"));
+    produto1.setRestaurante(restaurante);
+    produto1.setDisponivel(true);
+
+    Produto produto2 = new Produto();
+    produto2.setNome("Hambúrguer Duplo");
+    produto2.setDescricao("Dois hambúrgueres de carne com queijo");
+    produto2.setPreco(new BigDecimal("18.00"));
+    produto2.setRestaurante(restaurante);
+    produto2.setDisponivel(true);
+
+    produtoRepository.saveAll(Arrays.asList(produto1, produto2));
+    System.out.println("✓ 2 produtos inseridos");
+}
+
+// Método inserirPedidos
+private void inserirPedidos() {
+    System.out.println("--- Inserindo Pedidos ---");
+
+    Cliente cliente = clienteRepository.findAll().get(0);
+    Restaurante restaurante = restauranteRepository.findAll().get(0);
+    Produto produto = produtoRepository.findAll().get(0);
+
+    Pedido pedido = new Pedido();
+    pedido.setCliente(cliente);
+    pedido.setRestaurante(restaurante);
+    pedido.setDataPedido(LocalDateTime.now());
+    pedido.setEnderecoEntrega("Rua de Entrega, 123");
+    pedido.setStatus(StatusPedido.CONFIRMADO);
+
+    BigDecimal taxaEntrega = restaurante.getTaxaEntrega();
+    BigDecimal subtotal = produto.getPreco(); // simplificando: só 1 produto
+
+    pedido.setTaxaEntrega(taxaEntrega);
+    pedido.setSubtotal(subtotal);
+    pedido.setValorTotal(subtotal.add(taxaEntrega));
+
+    // Criar item do pedido
+    ItemPedido item = new ItemPedido();
+    item.setPedido(pedido);            // importante: associar o pedido
+    item.setProduto(produto);
+    item.setQuantidade(1);
+    item.setPrecoUnitario(produto.getPreco());
+    item.setPrecoTotal(produto.getPreco()); // ou quantidade * preço
+
+    pedido.setItens(List.of(item)); // associa os itens ao pedido
+
+    pedidoRepository.save(pedido);
+    System.out.println("✓ 1 pedido inserido com 1 item");
+}
+
+
 // Método testarConsultas
 private void testarConsultas() {
     System.out.println("\n=== TESTANDO CONSULTAS DOS REPOSITORIES ===");

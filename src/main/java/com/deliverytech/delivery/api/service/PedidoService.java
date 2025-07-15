@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service; 
 import org.springframework.transaction.annotation.Transactional; 
  
-import java.math.BigDecimal; 
+// import java.math.BigDecimal; 
 import java.util.List; 
 import java.util.Optional; 
  
@@ -42,7 +42,7 @@ restauranteId));
             throw new IllegalArgumentException("Cliente ina vo não pode fazer pedidos"); 
         } 
  
-        if (!restaurante.getAtivo()) { 
+        if (!restaurante.isAtivo()) { 
             throw new IllegalArgumentException("Restaurante não está disponível"); 
         } 
  
@@ -66,7 +66,7 @@ pedidoId));
             .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado: " + 
 produtoId)); 
  
-        if (!produto.getDisponivel()) { 
+        if (!produto.isDisponivel()) { 
             throw new IllegalArgumentException("Produto não disponível: " + produto.getNome()); 
         } 
  
@@ -158,4 +158,20 @@ pedidoId));
  
         return pedidoRepository.save(pedido); 
     } 
+
+    /**
+     * Atualizar status do pedido
+     */
+    public Pedido atualizarStatus(Long pedidoId, StatusPedido novoStatus) {
+        Pedido pedido = buscarPorId(pedidoId)
+            .orElseThrow(() -> new IllegalArgumentException("Pedido não encontrado: " + pedidoId));
+    
+        if (pedido.getStatus() == StatusPedido.CANCELADO || pedido.getStatus() == StatusPedido.ENTREGUE) {
+            throw new IllegalArgumentException("Não é possível alterar o status de um pedido cancelado ou entregue");
+        }
+    
+        pedido.setStatus(novoStatus);
+        return pedidoRepository.save(pedido);
+    }
+    
 } 

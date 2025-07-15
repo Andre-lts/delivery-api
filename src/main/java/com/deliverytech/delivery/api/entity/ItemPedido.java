@@ -11,9 +11,9 @@ public class ItemPedido {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id; 
-    private int quantidade; 
+    private Integer quantidade; 
     private BigDecimal precoUnitario; 
-    private BigDecimal subtotal; 
+    private BigDecimal precoTotal; 
  
     @ManyToOne 
     @JoinColumn(name = "pedido_id") 
@@ -22,4 +22,12 @@ public class ItemPedido {
     @ManyToOne 
     @JoinColumn(name = "produto_id") 
     private Produto produto; 
+
+    public void calcularSubtotal() {
+        if (quantidade != null && precoUnitario != null) {
+            this.precoTotal = precoUnitario.multiply(BigDecimal.valueOf(quantidade));
+        } else {
+            this.precoTotal = BigDecimal.ZERO;
+        }
+    }
 } 

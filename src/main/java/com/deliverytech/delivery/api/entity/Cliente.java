@@ -18,4 +18,12 @@ public class Cliente {
  
     @OneToMany(mappedBy = "cliente") 
     private List<Pedido> pedidos; 
+    
+    public void inativar() {
+        this.ativo = false;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
 } 
