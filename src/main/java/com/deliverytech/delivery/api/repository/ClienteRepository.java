@@ -18,7 +18,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     // Verificar se email já existe 
     boolean existsByEmail(String email); 
  
-    // Buscar clientes a vos 
+    // Buscar clientes ativos 
     List<Cliente> findByAtivoTrue(); 
  
     // Buscar clientes por nome (contendo) 
@@ -31,11 +31,20 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Query("SELECT DISTINCT c FROM Cliente c JOIN c.pedidos p WHERE c.ativo = true") 
     List<Cliente> findClientesComPedidos(); 
  
-    // Query na va - clientes por cidade 
+    // Query nativa - clientes por cidade 
     @Query(value = "SELECT * FROM clientes WHERE endereco LIKE %:cidade% AND ativo = true", nativeQuery = true) 
     List<Cliente> findByCidade(@Param("cidade") String cidade); 
  
-    // Contar clientes a vos 
+    // Contar clientes ativos 
     @Query("SELECT COUNT(c) FROM Cliente c WHERE c.a vo = true") 
     Long countClientesAtivos(); 
+
+    // Query nativa clintes por pedido
+    @Query(value = "SELECT c.nome, COUNT(p.id) as total_pedidos " + 
+               "FROM cliente c " + 
+               "LEFT JOIN pedido p ON c.id = p.cliente_id " + 
+               "GROUP BY c.id, c.nome " + 
+               "ORDER BY total_pedidos DESC " + 
+               "LIMIT 10", nativeQuery = true) 
+    List<Object[]> rankingClientesPorPedidos(); 
 }

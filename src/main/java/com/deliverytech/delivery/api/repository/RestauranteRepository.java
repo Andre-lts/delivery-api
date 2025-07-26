@@ -16,7 +16,7 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
     // Buscar por nome 
     Optional<Restaurante> findByNome(String nome); 
  
-    // Buscar restaurantes a vos 
+    // Buscar restaurantes ativos 
     List<Restaurante> findByAtivoTrue(); 
  
     // Buscar por categoria 
@@ -38,9 +38,18 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
     // Buscar por faixa de taxa de entrega 
     @Query("SELECT r FROM Restaurante r WHERE r.taxaEntrega BETWEEN :min AND :max AND r.ativo = true") 
     List<Restaurante> findByTaxaEntregaBetween(@Param("min") BigDecimal min, 
-@Param("max") BigDecimal max); 
+    @Param("max") BigDecimal max); 
  
     // Categorias disponíveis 
     @Query("SELECT DISTINCT r.categoria FROM Restaurante r WHERE r.ativo = true ORDER BY r.categoria") 
     List<String> findCategoriasDisponiveis(); 
+
+    // Relatório de vendas por restaurante
+    /* @Query("SELECT r.nome as nomeRestaurante, " + 
+       "SUM(p.valorTotal) as totalVendas, " + 
+        "COUNT(p.id) as quan dePedidos " + 
+        "FROM Restaurante r " + 
+        "LEFT JOIN Pedido p ON r.id = p.restaurante.id " + 
+        "GROUP BY r.id, r.nome") 
+        List<RelatorioVendas> relatorioVendasPorRestaurante(); */ 
 } 
